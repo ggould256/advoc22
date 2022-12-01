@@ -1,7 +1,12 @@
+use std::env;
 use std::io::{self, BufRead};
 use std::cmp::{min, max};
 
 pub fn main() {
+    let args: Vec<String> = env::args().collect();
+    let n_elves: usize = {
+        if args.len() <= 1 { 1 } else {
+            args[1].parse().expect("expected int")}};
     let mut elf_rations: Vec<Vec<u32>> = vec![vec![0]];
     let stdin = io::stdin();
     for line in stdin.lock().lines() {
@@ -23,7 +28,7 @@ pub fn main() {
         elf_cals.push(total_cals);
     }
     elf_cals.sort();
-    let num_to_print = max(0, min(elf_cals.len(), 3));
+    let num_to_print = max(0, min(elf_cals.len(), n_elves));
     let mut top_n_carried_cals = 0;
     for i in 0..num_to_print {
         top_n_carried_cals += elf_cals[elf_cals.len() - i - 1];
