@@ -1,35 +1,49 @@
 use std::env;
 use std::io::{BufRead, stdin};
-use std::cmp::{min, max};
 
-pub fn stanzas(lines: Vec<String>) -> Vec<Vec<String>> {
-    let mut results : Vec<Vec<String>> = vec![vec![]];
-    for line_text in lines {
-        if line_text.is_empty() {
-            results.push(vec![]);
-        } else {
-            results.last_mut().unwrap().push(line_text.clone());
-        }
-    }
-    results
+#[derive(PartialEq, Clone)]
+#[derive(Copy)]
+enum Play {
+    Invalid = -99,
+    Rock = 1,
+    Paper = 2,
+    Scissors = 3,
+}
+
+fn score_round(opponent_play: Play, my_play: Play) -> i32 {
+    let play_score: i32 = my_play as i32;
+    let result = (my_play as i32) - (opponent_play as i32) + 3;
+    let result_score = match result % 3 {
+        0 => 3,
+        1 => 6,
+        2 => 0,
+        _ => todo!()
+    };
+    play_score + result_score
 }
 
 pub fn main() {
-    let args: Vec<String> = env::args().collect();
-    let n_elves: usize = {
-        if args.len() <= 1 { 1 } else {
-            args[1].parse().expect("expected int")}};
+    let _args: Vec<String> = env::args().collect();
     let lines = stdin().lock().lines().map(|x| x.unwrap());
-    let stanzas = stanzas(lines.collect());
-    let rations = stanzas.iter().map(
-        |s| s.iter().map(
-            |l| l.parse().unwrap()).collect());
-    let mut ration_totals: Vec<u32> = rations.map(
-        |v: Vec<u32>| v.iter().sum()).collect();
-
-    ration_totals.sort();
-    let ration_totals = ration_totals;
-    let num_to_print = max(0, min(ration_totals.len(), n_elves));
-    let result: u32 = ration_totals[ration_totals.len() - num_to_print ..].iter().sum();
-    println!("{}", result);
+    let mut score = 0;
+    for line in lines {
+        if line.is_empty() { continue; }
+        let mut opponent_play = Play::Invalid;
+        let mut my_play = Play::Invalid;
+        for c in line.chars() {
+            match c {
+                'A' => opponent_play = Play::Rock,
+                'B' => opponent_play = Play::Paper,
+                'C' => opponent_play = Play::Scissors,
+                'X' => my_play = Play::Rock,
+                'Y' => my_play = Play::Paper,
+                'Z' => my_play = Play::Scissors,
+                _ => (),
+            }
+        }
+        assert!(opponent_play != Play::Invalid);
+        assert!(my_play != Play::Invalid);
+        score += score_round(opponent_play, my_play);
+    }
+    println!("{}", score);
 }
