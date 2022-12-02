@@ -4,7 +4,12 @@ version = "0.0.0"
 edition = "2021"
 
 [[bin]]
-name = "day_02"
+name = "day_02_1_star"
+path = "src/1_star.rs"
+
+[[bin]]
+name = "day_02_2_star"
+path = "src/2_star.rs"
 
 [dependencies]
 common = { path = "../common", version = "0.0.0" }
