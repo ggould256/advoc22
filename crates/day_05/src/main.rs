@@ -4,9 +4,6 @@ use std::io::{BufRead, stdin};
 type Layout = Vec<Vec<char>>;
 
 fn read_layout(lines: &[String]) -> Layout {
-    let move_re = regex::Regex::new(
-      r"move (\d+) from (\d+) to (\d+)"
-    ).expect("Regex parse error");
     vec![]
 }
 
@@ -18,6 +15,9 @@ struct Move {
 }
 
 fn read_moves(lines: &[String]) -> Vec<Move> {
+    let move_re = regex::Regex::new(
+        r"move (\d+) from (\d+) to (\d+)"
+      ).expect("Regex parse error");
     vec![]
 }
 
