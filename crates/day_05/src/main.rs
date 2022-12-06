@@ -4,6 +4,17 @@ use std::io::{BufRead, stdin};
 type Layout = Vec<Vec<char>>;
 
 fn read_layout(lines: &[String]) -> Layout {
+    let mut layout = vec![];
+    let mut lines_vec = lines.to_vec();
+    lines_vec.reverse();
+    for line in lines_vec.iter().skip(1) {
+        let num_columns = (line.len() + 1) / 4;
+        for col_num in 0..num_columns {
+            let start_point = col_num * 4;
+            let box_str: &str = &line[start_point..(start_point+3)];
+            println!("Saw box {}", box_str);
+        }
+    }
     vec![]
 }
 
