@@ -91,8 +91,8 @@ pub fn main() {
     println!("Parsed {} lines of layout and {} lines of moves",
              layout_text.len(), moves_text.len());
 
-    let initial_layout = read_layout(&layout_text[..]);
-    let moves = read_moves(&moves_text[..]);
+    let initial_layout = read_layout(layout_text);
+    let moves = read_moves(moves_text);
     let mut layout = initial_layout;
     for m in moves {
         if args[1] == "stacked" {
